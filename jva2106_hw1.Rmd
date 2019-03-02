@@ -11,6 +11,18 @@ knitr::opts_chunk$set(warning = F)
 knitr::opts_chunk$set(message = F)
 ```
 
+```{r}
+
+library(tidyverse)
+library(glmnet)
+library(caret)
+library(corrplot)
+library(plotmo)
+library(pls)
+library(ISLR)
+
+```
+
 Reading/loading the datasets:
 
 ```{r}
@@ -19,7 +31,7 @@ train_solubility <- read.csv("C:/Users/19293/Desktop/Data Science II/solubility_
 test_solubility <- read.csv("C:/Users/19293/Desktop/Data Science II/solubility_test.csv")
 
 ```
-
+The data has been divided into training and test datasets containing 229 variables each. There are 951 observations in the training dataset and 316 observations in the test dataset.
 ```{r}
 
 fit1 <- lm(Solubility ~ . , data = train_solubility)
@@ -30,9 +42,6 @@ mean((test_solubility$Solubility - predict.lm(fit1, test_solubility)) ^ 2)
 
 ```
 
-```{r}
-library(glmnet)
-```
 
 ```{r}
 
@@ -102,4 +111,20 @@ mean((pred3- Y.Test)^2)
 ```{r}
 lasso_coef = predict(cv.lasso, s="lambda.min", type="coefficients")
 length(lasso_coef[lasso_coef != 0])
+```
+
+### PCR 
+```{r}
+ctrl1 <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+set.seed(2)
+pcr.fit <- train(X.Training,Y.Training,
+                 method = "pcr",
+                 tuneLength = 228,
+                 trControl = ctrl1,
+                 scale = TRUE)
+
+predy2.pcr2 <- predict(pcr.fit$finalModel, newdata = X.Testing, 
+                       ncomp = pcr.fit$bestTune$ncomp)
+mean((predy2.pcr2-Y.Testing)^2)
+
 ```
