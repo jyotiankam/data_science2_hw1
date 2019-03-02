@@ -1,23 +1,14 @@
 ---
-title: "jva2106_hw1"
-author: "Jyoti Ankam"
-output: github_document
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_chunk$set(warning = F)
-knitr::opts_chunk$set(message = F)
-```
-
----
 title: "Data Science II HW1"
 author: "Jyoti Ankam"
 output: github_document
 ---
 
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(warning = F)
+knitr::opts_chunk$set(message = F)
 ```
 
 Reading/loading the datasets:
