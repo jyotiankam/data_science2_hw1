@@ -1,0 +1,114 @@
+---
+title: "jva2106_hw1"
+author: "Jyoti Ankam"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(warning = F)
+knitr::opts_chunk$set(message = F)
+```
+
+---
+title: "Data Science II HW1"
+author: "Jyoti Ankam"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Reading/loading the datasets:
+
+```{r}
+train_solubility <- read.csv("C:/Users/19293/Desktop/Data Science II/solubility_train.csv") 
+
+test_solubility <- read.csv("C:/Users/19293/Desktop/Data Science II/solubility_test.csv")
+
+```
+
+```{r}
+
+fit1 <- lm(Solubility ~ . , data = train_solubility)
+
+fit2 <- lm(Solubility ~ . , data = test_solubility)
+
+mean((test_solubility$Solubility - predict.lm(fit1, test_solubility)) ^ 2)
+
+```
+
+```{r}
+library(glmnet)
+```
+
+```{r}
+
+X.Training = model.matrix(Solubility ~ ., train_solubility)[,-1]
+Y.Training = train_solubility$Solubility
+
+ridge.mod <- glmnet(X.Training, Y.Training, alpha=0, lambda = exp(seq(-10, 10, length=200)))
+plot(ridge.mod)
+
+set.seed(1)
+cv.ridge <- cv.glmnet(X.Training, Y.Training, 
+                      alpha = 0, 
+                      lambda = exp(seq(-10, 10, length=200)),
+                      type.measure = "mse")
+
+plot(cv.ridge)
+
+optimal_lamda = cv.ridge$lambda.min
+#type of measure - used to determine which is the best model
+#mse = mean square error
+```
+
+```{r}
+X.Testing = model.matrix(Solubility ~ ., test_solubility)[,-1]
+Y.Testing = test_solubility$Solubility
+
+set.seed(1)
+pred = predict(ridge.mod, s = optimal_lamda, newx = X.Testing)
+mean((pred - Y.Testing)^2)
+
+pred1 = predict(cv.ridge, se = optimal_lamda, newx = X.Testing)
+mean((pred1 - Y.Testing)^2)
+```
+#Lasso
+
+```{r}
+X.Train = model.matrix(Solubility ~ ., train_solubility)[,-1]
+Y.Train = train_solubility$Solubility
+
+lasso.mod <- glmnet(X.Train, Y.Train, alpha=1, lambda = exp(seq(-10, 10, length=200)))
+plot(lasso.mod)
+
+set.seed(1)
+cv.lasso <- cv.glmnet(X.Train, Y.Train, 
+                      alpha = 1, 
+                      lambda = exp(seq(-10, 10, length=200)),
+                      type.measure = "mse")
+
+plot(cv.ridge)
+
+optimum_lamda = cv.lasso$lambda.min
+
+```
+
+```{r}
+X.Test = model.matrix(Solubility ~ ., test_solubility)[,-1]
+Y.Test = test_solubility$Solubility
+
+set.seed(1)
+pred2 = predict(lasso.mod, s = optimum_lamda, newx = X.Test)
+mean((pred2 - Y.Test)^2)
+
+pred3 = predict(cv.lasso, se = optimum_lamda, newx = X.Test)
+mean((pred3- Y.Test)^2)
+
+```
+```{r}
+lasso_coef = predict(cv.lasso, s="lambda.min", type="coefficients")
+length(lasso_coef[lasso_coef != 0])
+```
