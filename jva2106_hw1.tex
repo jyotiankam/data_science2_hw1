@@ -1,0 +1,346 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Data Science II HW1},
+            pdfauthor={Jyoti Ankam},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{Data Science II HW1}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{Jyoti Ankam}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+    \date{}
+    \predate{}\postdate{}
+  
+
+\begin{document}
+\maketitle
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(tidyverse)}
+\KeywordTok{library}\NormalTok{(glmnet)}
+\KeywordTok{library}\NormalTok{(caret)}
+\KeywordTok{library}\NormalTok{(ISLR)}
+\KeywordTok{library}\NormalTok{(corrplot)}
+\KeywordTok{library}\NormalTok{(plotmo)}
+\KeywordTok{library}\NormalTok{(pls)}
+\end{Highlighting}
+\end{Shaded}
+
+Reading/loading the datasets:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{train_solubility <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"C:/Users/19293/Desktop/Data Science II/solubility_train.csv"}\NormalTok{) }
+
+\NormalTok{test_solubility <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"C:/Users/19293/Desktop/Data Science II/solubility_test.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+The data has been divided into training and test datasets containing 229
+variables each. There are 951 observations in the training dataset and
+316 observations in the test dataset.
+
+\section{Least sqaures}\label{least-sqaures}
+
+Fitting the linear model using least sqaures on the training data:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit1 <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(Solubility }\OperatorTok{~}\StringTok{ }\NormalTok{. , }\DataTypeTok{data =}\NormalTok{ train_solubility)}
+
+\NormalTok{fit2 <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(Solubility }\OperatorTok{~}\StringTok{ }\NormalTok{. , }\DataTypeTok{data =}\NormalTok{ test_solubility)}
+
+\KeywordTok{mean}\NormalTok{((test_solubility}\OperatorTok{$}\NormalTok{Solubility }\OperatorTok{-}\StringTok{ }\KeywordTok{predict.lm}\NormalTok{(fit1, test_solubility)) }\OperatorTok{^}\StringTok{ }\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.5558898
+\end{verbatim}
+
+The mean square error using the test data is 0.5558
+
+\section{Ridge regression}\label{ridge-regression}
+
+Fitting a ridge regression model on the training data, with λ chosen by
+cross-validation.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{X.Training =}\StringTok{ }\KeywordTok{model.matrix}\NormalTok{(Solubility }\OperatorTok{~}\StringTok{ }\NormalTok{., train_solubility)[,}\OperatorTok{-}\DecValTok{1}\NormalTok{]}
+\NormalTok{Y.Training =}\StringTok{ }\NormalTok{train_solubility}\OperatorTok{$}\NormalTok{Solubility}
+
+\NormalTok{ridge.mod <-}\StringTok{ }\KeywordTok{glmnet}\NormalTok{(X.Training, Y.Training, }\DataTypeTok{alpha=}\DecValTok{0}\NormalTok{, }\DataTypeTok{lambda =} \KeywordTok{exp}\NormalTok{(}\KeywordTok{seq}\NormalTok{(}\OperatorTok{-}\DecValTok{10}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DataTypeTok{length=}\DecValTok{200}\NormalTok{)))}
+\KeywordTok{plot}\NormalTok{(ridge.mod)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{jva2106_hw1_files/figure-latex/unnamed-chunk-4-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{2}\NormalTok{)}
+\NormalTok{cv.ridge <-}\StringTok{ }\KeywordTok{cv.glmnet}\NormalTok{(X.Training, Y.Training, }
+                      \DataTypeTok{alpha =} \DecValTok{0}\NormalTok{, }
+                      \DataTypeTok{lambda =} \KeywordTok{exp}\NormalTok{(}\KeywordTok{seq}\NormalTok{(}\OperatorTok{-}\DecValTok{10}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DataTypeTok{length=}\DecValTok{200}\NormalTok{)),}
+                      \DataTypeTok{type.measure =} \StringTok{"mse"}\NormalTok{)}
+
+\KeywordTok{plot}\NormalTok{(cv.ridge)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{jva2106_hw1_files/figure-latex/unnamed-chunk-4-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{optimal_lamda =}\StringTok{ }\NormalTok{cv.ridge}\OperatorTok{$}\NormalTok{lambda.min}
+\end{Highlighting}
+\end{Shaded}
+
+Using the lambda chosen by cross validation:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{X.Testing =}\StringTok{ }\KeywordTok{model.matrix}\NormalTok{(Solubility }\OperatorTok{~}\StringTok{ }\NormalTok{., test_solubility)[,}\OperatorTok{-}\DecValTok{1}\NormalTok{]}
+\NormalTok{Y.Testing =}\StringTok{ }\NormalTok{test_solubility}\OperatorTok{$}\NormalTok{Solubility}
+
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{2}\NormalTok{)}
+\NormalTok{pred =}\StringTok{ }\KeywordTok{predict}\NormalTok{(ridge.mod, }\DataTypeTok{s =}\NormalTok{ optimal_lamda, }\DataTypeTok{newx =}\NormalTok{ X.Testing)}
+\KeywordTok{mean}\NormalTok{((pred }\OperatorTok{-}\StringTok{ }\NormalTok{Y.Testing)}\OperatorTok{^}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.5115182
+\end{verbatim}
+
+The mean test error is 0.5115
+
+\section{Lasso}\label{lasso}
+
+Fitting a lasso model on the training data, with λ chosen by
+cross-validation
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{X.Train =}\StringTok{ }\KeywordTok{model.matrix}\NormalTok{(Solubility }\OperatorTok{~}\StringTok{ }\NormalTok{., train_solubility)[,}\OperatorTok{-}\DecValTok{1}\NormalTok{]}
+\NormalTok{Y.Train =}\StringTok{ }\NormalTok{train_solubility}\OperatorTok{$}\NormalTok{Solubility}
+
+\NormalTok{lasso.mod <-}\StringTok{ }\KeywordTok{glmnet}\NormalTok{(X.Train, Y.Train, }\DataTypeTok{alpha=}\DecValTok{1}\NormalTok{, }\DataTypeTok{lambda =} \KeywordTok{exp}\NormalTok{(}\KeywordTok{seq}\NormalTok{(}\OperatorTok{-}\DecValTok{10}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DataTypeTok{length=}\DecValTok{200}\NormalTok{)))}
+\KeywordTok{plot}\NormalTok{(lasso.mod)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{jva2106_hw1_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{2}\NormalTok{)}
+\NormalTok{cv.lasso <-}\StringTok{ }\KeywordTok{cv.glmnet}\NormalTok{(X.Train, Y.Train, }
+                      \DataTypeTok{alpha =} \DecValTok{1}\NormalTok{, }
+                      \DataTypeTok{lambda =} \KeywordTok{exp}\NormalTok{(}\KeywordTok{seq}\NormalTok{(}\OperatorTok{-}\DecValTok{10}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DataTypeTok{length=}\DecValTok{200}\NormalTok{)),}
+                      \DataTypeTok{type.measure =} \StringTok{"mse"}\NormalTok{)}
+
+\KeywordTok{plot}\NormalTok{(cv.ridge)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{jva2106_hw1_files/figure-latex/unnamed-chunk-6-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{optimum_lamda =}\StringTok{ }\NormalTok{cv.lasso}\OperatorTok{$}\NormalTok{lambda.min}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{X.Test =}\StringTok{ }\KeywordTok{model.matrix}\NormalTok{(Solubility }\OperatorTok{~}\StringTok{ }\NormalTok{., test_solubility)[,}\OperatorTok{-}\DecValTok{1}\NormalTok{]}
+\NormalTok{Y.Test =}\StringTok{ }\NormalTok{test_solubility}\OperatorTok{$}\NormalTok{Solubility}
+
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{2}\NormalTok{)}
+\NormalTok{pred2 =}\StringTok{ }\KeywordTok{predict}\NormalTok{(lasso.mod, }\DataTypeTok{s =}\NormalTok{ optimum_lamda, }\DataTypeTok{newx =}\NormalTok{ X.Test)}
+\KeywordTok{mean}\NormalTok{((pred2 }\OperatorTok{-}\StringTok{ }\NormalTok{Y.Test)}\OperatorTok{^}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.4988678
+\end{verbatim}
+
+The test error is 0.4988.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lasso_coef =}\StringTok{ }\KeywordTok{predict}\NormalTok{(cv.lasso, }\DataTypeTok{s=}\StringTok{"lambda.min"}\NormalTok{, }\DataTypeTok{type=}\StringTok{"coefficients"}\NormalTok{)}
+\KeywordTok{length}\NormalTok{(lasso_coef[lasso_coef }\OperatorTok{!=}\StringTok{ }\DecValTok{0}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 144
+\end{verbatim}
+
+There are 144 non-zero coefficient estimates
+
+\subsubsection{PCR}\label{pcr}
+
+Fitting a PCR model on the training data, with M chosen by
+cross-validation.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ctrl1 <-}\StringTok{ }\KeywordTok{trainControl}\NormalTok{(}\DataTypeTok{method =} \StringTok{"repeatedcv"}\NormalTok{, }\DataTypeTok{number =} \DecValTok{10}\NormalTok{, }\DataTypeTok{repeats =} \DecValTok{5}\NormalTok{)}
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{2}\NormalTok{)}
+\NormalTok{pcr.fit <-}\StringTok{ }\KeywordTok{train}\NormalTok{(X.Training,Y.Training,}
+                 \DataTypeTok{method =} \StringTok{"pcr"}\NormalTok{,}
+                 \DataTypeTok{tuneLength =} \DecValTok{228}\NormalTok{,}
+                 \DataTypeTok{trControl =}\NormalTok{ ctrl1,}
+                 \DataTypeTok{scale =} \OtherTok{TRUE}\NormalTok{)}
+
+\NormalTok{predy2.pcr2 <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(pcr.fit}\OperatorTok{$}\NormalTok{finalModel, }\DataTypeTok{newdata =}\NormalTok{ X.Testing, }
+                       \DataTypeTok{ncomp =}\NormalTok{ pcr.fit}\OperatorTok{$}\NormalTok{bestTune}\OperatorTok{$}\NormalTok{ncomp)}
+\KeywordTok{mean}\NormalTok{((predy2.pcr2}\OperatorTok{-}\NormalTok{Y.Testing)}\OperatorTok{^}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.540555
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(pcr.fit, }\DataTypeTok{highlight =} \OtherTok{TRUE}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme_bw}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{jva2106_hw1_files/figure-latex/unnamed-chunk-9-1.pdf}
+The test error is 0.5405 and is lowest at M = 149
+
+\section{Brieﬂy discuss the results obtained in
+(a)∼(d)}\label{briey-discuss-the-results-obtained-in-ad}
+
+From the models above, the RMSE is least for the lasso model compared to
+ridge regression, least squares linear method and PCR. It means that the
+coefficient for some of the predictors are truly zero. Additionally,
+lasso is a more restrictive model, and thus it has the possibility of
+reducing overfitting and variance in predictions. As long as it does not
+result in too high of a bias due to its added constraints, it will
+outperform least squares and the other methods which might be fitting
+spurious parameters.
+
+
+\end{document}
