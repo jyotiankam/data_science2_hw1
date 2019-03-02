@@ -31,7 +31,12 @@ train_solubility <- read.csv("C:/Users/19293/Desktop/Data Science II/solubility_
 test_solubility <- read.csv("C:/Users/19293/Desktop/Data Science II/solubility_test.csv")
 
 ```
+
 The data has been divided into training and test datasets containing 229 variables each. There are 951 observations in the training dataset and 316 observations in the test dataset.
+
+#Least sqaures
+Fitting the linear model using least sqaures on the training data:
+
 ```{r}
 
 fit1 <- lm(Solubility ~ . , data = train_solubility)
@@ -41,8 +46,10 @@ fit2 <- lm(Solubility ~ . , data = test_solubility)
 mean((test_solubility$Solubility - predict.lm(fit1, test_solubility)) ^ 2)
 
 ```
+The mean square error using the test data is 0.5558
 
-
+#Ridge regression
+Fitting a ridge regression model on the training data, with λ chosen by cross-validation.
 ```{r}
 
 X.Training = model.matrix(Solubility ~ ., train_solubility)[,-1]
@@ -60,10 +67,9 @@ cv.ridge <- cv.glmnet(X.Training, Y.Training,
 plot(cv.ridge)
 
 optimal_lamda = cv.ridge$lambda.min
-#type of measure - used to determine which is the best model
-#mse = mean square error
 ```
 
+Using the lambda chosen by cross validation:
 ```{r}
 X.Testing = model.matrix(Solubility ~ ., test_solubility)[,-1]
 Y.Testing = test_solubility$Solubility
@@ -72,11 +78,11 @@ set.seed(1)
 pred = predict(ridge.mod, s = optimal_lamda, newx = X.Testing)
 mean((pred - Y.Testing)^2)
 
-pred1 = predict(cv.ridge, se = optimal_lamda, newx = X.Testing)
-mean((pred1 - Y.Testing)^2)
 ```
-#Lasso
+The mean test error is 0.5128
 
+#Lasso
+Fitting a lasso model on the training data, with λ chosen by cross-validation
 ```{r}
 X.Train = model.matrix(Solubility ~ ., train_solubility)[,-1]
 Y.Train = train_solubility$Solubility
@@ -104,16 +110,20 @@ set.seed(1)
 pred2 = predict(lasso.mod, s = optimum_lamda, newx = X.Test)
 mean((pred2 - Y.Test)^2)
 
-pred3 = predict(cv.lasso, se = optimum_lamda, newx = X.Test)
-mean((pred3- Y.Test)^2)
-
 ```
+
+The test error is 0.4988.
+
 ```{r}
 lasso_coef = predict(cv.lasso, s="lambda.min", type="coefficients")
 length(lasso_coef[lasso_coef != 0])
 ```
+There are 144 non-zero coefficient estimates
 
 ### PCR 
+
+Fitting a PCR model on the training data, with M chosen by cross-validation.
+
 ```{r}
 ctrl1 <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
 set.seed(2)
@@ -126,5 +136,8 @@ pcr.fit <- train(X.Training,Y.Training,
 predy2.pcr2 <- predict(pcr.fit$finalModel, newdata = X.Testing, 
                        ncomp = pcr.fit$bestTune$ncomp)
 mean((predy2.pcr2-Y.Testing)^2)
+ggplot(pcr.fit, highlight = TRUE) + theme_bw()
 
 ```
+The test error is 0.54055 and is lowest at M = 149
+
